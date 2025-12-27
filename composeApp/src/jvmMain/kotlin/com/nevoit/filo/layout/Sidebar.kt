@@ -15,8 +15,15 @@ import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.mocharealm.gaze.capsule.ContinuousRoundedRectangle
 import com.nevoit.filo.component.Symbol
 import com.nevoit.filo.theme.GlasenseTheme
@@ -24,36 +31,37 @@ import org.jetbrains.jewel.ui.component.Text
 
 @Composable
 fun Sidebar(modifier: Modifier = Modifier) {
+    val contentColor = LocalContentColor.current
     Box(
-        modifier = modifier
+        modifier = modifier.zIndex(100f)
             .width(256.dp)
             .fillMaxHeight()
             .background(color = GlasenseTheme.colorScheme.background)
+            .drawBehind {
+                drawRect(
+                    color = contentColor.copy(.1f),
+                    size = Size(1.dp.toPx(), this.size.height),
+                    topLeft = Offset(this.size.width, 0f)
+                )
+            }
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Spacer(modifier = Modifier.height(8.dp))
+        Column(modifier = Modifier.fillMaxSize().padding(top = 40.dp)) {
             Column(modifier = Modifier.weight(1f)) {
                 SidebarItem(
-                    icon = "\uDBC0\uDF9E",
-                    text = "Home",
+                    icon = "\uDBC1\uDF0D",
+                    text = "整理",
                     isSelected = true
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 SidebarItem(
-                    icon = "\uDBC0\uDF9E",
-                    text = "Home",
+                    icon = "\uDBC0\uDE15",
+                    text = "文件夹",
                     isSelected = false
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 SidebarItem(
-                    icon = "\uDBC0\uDF9E",
-                    text = "Home",
-                    isSelected = false
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                SidebarItem(
-                    icon = "\uDBC0\uDF9E",
-                    text = "Home",
+                    icon = "\uDBC0\uDEE1",
+                    text = "标签",
                     isSelected = false
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -61,7 +69,7 @@ fun Sidebar(modifier: Modifier = Modifier) {
             Column() {
                 SidebarItem(
                     icon = "\uDBC0\uDF5F",
-                    text = "Settings",
+                    text = "设置",
                     endText = "2000",
                     isSelected = false
                 )
@@ -87,6 +95,16 @@ fun SidebarItem(
             .padding(horizontal = 8.dp)
             .fillMaxWidth()
             .height(40.dp)
+            .then(
+                if (isSelected) Modifier.dropShadow(
+                    shape = ContinuousRoundedRectangle(8.dp), shadow = Shadow(
+                        radius = 8.dp,
+                        offset = DpOffset(0.dp, 4.dp),
+                        color = Color.Black,
+                        alpha = .1f
+                    )
+                ) else Modifier
+            )
             .background(
                 color = if (isSelected) GlasenseTheme.colorScheme.surface else Color.Transparent,
                 shape = ContinuousRoundedRectangle(8.dp)
