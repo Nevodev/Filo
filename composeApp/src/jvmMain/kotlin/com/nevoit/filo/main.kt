@@ -36,67 +36,69 @@ import org.jetbrains.jewel.window.styling.TitleBarColors
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 
 fun main() = application {
-    val textStyle = JewelTheme.createDefaultTextStyle()
-    val editorStyle = JewelTheme.createEditorTextStyle()
+    GlasenseTheme {
+        val textStyle = JewelTheme.createDefaultTextStyle()
+        val editorStyle = JewelTheme.createEditorTextStyle()
 
-    val themeDefinition =
-        if (GlasenseTheme.colorScheme.isDark) {
-            JewelTheme.darkThemeDefinition(
-                defaultTextStyle = textStyle,
-                editorTextStyle = editorStyle
-            )
-        } else {
-            JewelTheme.lightThemeDefinition(
-                defaultTextStyle = textStyle,
-                editorTextStyle = editorStyle
-            )
-        }
-
-    val darkColors = TitleBarColors.dark(
-        backgroundColor = Color.Transparent,
-        inactiveBackground = Color.Transparent,
-        contentColor = Color.White
-    )
-    val lightColors = TitleBarColors.lightWithLightHeader(
-        backgroundColor = Color.White.copy(.0000000001f), // if you don't do this, icon pane will be white, I don't fucking know why
-        inactiveBackground = Color.Transparent,
-        contentColor = Color.Black
-    )
-
-    IntUiTheme(
-        theme = themeDefinition,
-        styling = ComponentStyling.default().decoratedWindow(
-            titleBarStyle = when (GlasenseTheme.colorScheme.isDark) {
-                true -> TitleBarStyle.dark(colors = darkColors)
-                false -> TitleBarStyle.lightWithLightHeader(colors = lightColors)
+        val themeDefinition =
+            if (GlasenseTheme.colorScheme.isDark) {
+                JewelTheme.darkThemeDefinition(
+                    defaultTextStyle = textStyle,
+                    editorTextStyle = editorStyle
+                )
+            } else {
+                JewelTheme.lightThemeDefinition(
+                    defaultTextStyle = textStyle,
+                    editorTextStyle = editorStyle
+                )
             }
-        ),
-    ) {
-        val icon = painterResource(Res.drawable.filo_icon)
 
-        DecoratedWindow(
-            onCloseRequest = ::exitApplication,
-            title = "Filo",
-            icon = icon
+        val darkColors = TitleBarColors.dark(
+            backgroundColor = Color.Transparent,
+            inactiveBackground = Color.Transparent,
+            contentColor = Color.White
+        )
+        val lightColors = TitleBarColors.lightWithLightHeader(
+            backgroundColor = Color.White.copy(.0000000001f), // if you don't do this, icon pane will be white, I don't fucking know why
+            inactiveBackground = Color.Transparent,
+            contentColor = Color.Black
+        )
+
+        IntUiTheme(
+            theme = themeDefinition,
+            styling = ComponentStyling.default().decoratedWindow(
+                titleBarStyle = when (GlasenseTheme.colorScheme.isDark) {
+                    true -> TitleBarStyle.dark(colors = darkColors)
+                    false -> TitleBarStyle.lightWithLightHeader(colors = lightColors)
+                }
+            ),
         ) {
-            window.background = GlasenseTheme.colorScheme.background.toAwtColor()
+            val icon = painterResource(Res.drawable.filo_icon)
 
-            Box(modifier = Modifier.fillMaxSize()) {
-                App()
-                TitleBar {
-                    Row(
-                        modifier = Modifier.align(Alignment.Start),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            icon,
-                            contentDescription = null,
-                            modifier = Modifier.padding(start = 8.dp).size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = "Filo")
+            DecoratedWindow(
+                onCloseRequest = ::exitApplication,
+                title = "Filo",
+                icon = icon
+            ) {
+                window.background = GlasenseTheme.colorScheme.background.toAwtColor()
+
+                Box(modifier = Modifier.fillMaxSize()) {
+                    App()
+                    TitleBar {
+                        Row(
+                            modifier = Modifier.align(Alignment.Start),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                icon,
+                                contentDescription = null,
+                                modifier = Modifier.padding(start = 8.dp).size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = "Filo")
+                        }
+
                     }
-
                 }
             }
         }

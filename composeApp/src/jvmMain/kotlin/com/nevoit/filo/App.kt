@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.nevoit.filo.layout.Sidebar
+import com.nevoit.filo.screen.OrganizeScreen
 import com.nevoit.filo.theme.GlasenseTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -20,7 +21,9 @@ fun App() {
             Box(
                 modifier = Modifier.weight(1f).fillMaxHeight()
                     .background(color = GlasenseTheme.colorScheme.background)
-            )
+            ) {
+                OrganizeScreen()
+            }
         }
     }
 }
