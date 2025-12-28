@@ -15,10 +15,12 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.nevoit.filo.component.Text
+import com.nevoit.filo.data.FileRepository
 import com.nevoit.filo.theme.GlasenseTheme
 import com.nevoit.filo.util.toAwtColor
 import filo.composeapp.generated.resources.Res
 import filo.composeapp.generated.resources.filo_icon_96
+import io.github.vinceglb.filekit.FileKit
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.jewel.foundation.theme.JewelTheme
 import org.jetbrains.jewel.intui.standalone.theme.IntUiTheme
@@ -37,6 +39,9 @@ import org.jetbrains.jewel.window.styling.TitleBarColors
 import org.jetbrains.jewel.window.styling.TitleBarStyle
 
 fun main() = application {
+    FileRepository.init()
+    FileKit.init(appId = "Filo")
+
     GlasenseTheme {
         val textStyle = JewelTheme.createDefaultTextStyle()
         val editorStyle = JewelTheme.createEditorTextStyle()

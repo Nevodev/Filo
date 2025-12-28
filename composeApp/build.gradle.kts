@@ -34,9 +34,10 @@ kotlin {
             }
             implementation("com.mocharealm.gaze:capsule:2.1.1-patch2")
             implementation("io.coil-kt.coil3:coil-compose:3.3.0")
-            implementation(libs.bundles.exposed.all)
+            implementation(libs.bundles.exposed)
             implementation(libs.sqlite.driver)
             implementation(libs.slf4j.simple)
+            implementation(libs.bundles.filekit)
         }
     }
 }

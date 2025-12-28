@@ -56,19 +56,19 @@ fun Sidebar(modifier: Modifier = Modifier) {
                     text = "整理",
                     isSelected = true
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 SidebarItem(
                     icon = "\uDBC0\uDE15",
                     text = "文件夹",
                     isSelected = false
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 SidebarItem(
                     icon = "\uDBC0\uDEE1",
                     text = "标签",
                     isSelected = false
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
             }
             Column() {
                 SidebarItem(
