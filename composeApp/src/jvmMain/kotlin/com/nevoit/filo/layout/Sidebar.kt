@@ -1,6 +1,12 @@
 package com.nevoit.filo.layout
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,21 +19,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.LocalContentColor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.shadow.Shadow
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.mocharealm.gaze.capsule.ContinuousRoundedRectangle
 import com.nevoit.filo.component.Symbol
+import com.nevoit.filo.component.Text
 import com.nevoit.filo.theme.GlasenseTheme
-import org.jetbrains.jewel.ui.component.Text
 
 @Composable
 fun Sidebar(modifier: Modifier = Modifier) {
@@ -89,29 +93,40 @@ fun SidebarItem(
     isSelected: Boolean = false
 ) {
     val color = if (isSelected) GlasenseTheme.colorScheme.primary else LocalContentColor.current
+    val interactionSource = remember { MutableInteractionSource() }
+
+    val isHovered by interactionSource.collectIsHoveredAsState()
+
+    val targetBackgroundColor =
+        if (isSelected) {
+            GlasenseTheme.colorScheme.surface
+        } else {
+            if (isHovered) LocalContentColor.current.copy(.05f) else GlasenseTheme.colorScheme.surface.copy(
+                0f
+            )
+        }
+    val backgroundColor =
+        animateColorAsState(
+            targetValue = targetBackgroundColor,
+            animationSpec = tween(
+                durationMillis = 200,
+                delayMillis = 0,
+                easing = CubicBezierEasing(.2f, .2f, 0f, 1f)
+            )
+        )
 
     Row(
         modifier = modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth()
-            .height(40.dp)
-            .then(
-                if (isSelected) Modifier.dropShadow(
-                    shape = ContinuousRoundedRectangle(8.dp), shadow = Shadow(
-                        radius = 8.dp,
-                        offset = DpOffset(0.dp, 4.dp),
-                        color = Color.Black,
-                        alpha = .1f
-                    )
-                ) else Modifier
-            )
+            .height(36.dp)
             .background(
-                color = if (isSelected) GlasenseTheme.colorScheme.surface else Color.Transparent,
+                color = backgroundColor.value,
                 shape = ContinuousRoundedRectangle(8.dp)
-            ),
+            ).hoverable(interactionSource),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(2.dp))
         Symbol(
             icon = icon,
             size = 32.dp,

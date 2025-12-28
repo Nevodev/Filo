@@ -1,16 +1,12 @@
 package com.nevoit.filo.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -70,21 +66,14 @@ fun DropZone(
             .background(
                 if (isDragging) Color(0xFFE3F2FD) else Color(0xFFFAFAFA),
                 RoundedCornerShape(12.dp)
-            )
-            .border(
-                width = 2.dp,
-                color = if (isDragging) MaterialTheme.colors.primary else Color.Gray,
-                shape = RoundedCornerShape(12.dp)
             ).dragAndDropTarget(
                 shouldStartDragAndDrop = { true },
                 target = dragAndDropTarget
             )
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = if (isDragging) "松手添加文件..." else "拖入文件或文件夹到此处",
-                style = MaterialTheme.typography.h6,
+                text = if (isDragging) "松手添加文件..." else "拖动文件或文件夹到此处",
                 color = Color.Gray
             )
         }
